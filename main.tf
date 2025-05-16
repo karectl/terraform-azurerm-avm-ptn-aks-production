@@ -126,10 +126,10 @@ resource "azurerm_kubernetes_cluster" "this" {
     pod_cidr            = var.network.pod_cidr
     service_cidr        = var.network.service_cidr
   }
-  oms_agent {
-    log_analytics_workspace_id      = azurerm_log_analytics_workspace.this.id
-    msi_auth_for_monitoring_enabled = true
-  }
+  # oms_agent {
+  #   log_analytics_workspace_id      = azurerm_log_analytics_workspace.this.id
+  #   msi_auth_for_monitoring_enabled = true
+  # }
 
   lifecycle {
     ignore_changes = [
@@ -182,22 +182,22 @@ resource "azapi_update_resource" "aks_cluster_post_create" {
   }
 }
 
-resource "azurerm_log_analytics_workspace" "this" {
-  location            = var.location
-  name                = "log-${var.name}-aks"
-  resource_group_name = var.resource_group_name
-  sku                 = "PerGB2018"
-  tags                = var.tags
-}
+# resource "azurerm_log_analytics_workspace" "this" {
+#   location            = var.location
+#   name                = "log-${var.name}-aks"
+#   resource_group_name = var.resource_group_name
+#   sku                 = "PerGB2018"
+#   tags                = var.tags
+# }
 
-resource "azurerm_log_analytics_workspace_table" "this" {
-  for_each = toset(local.log_analytics_tables)
+# resource "azurerm_log_analytics_workspace_table" "this" {
+#   for_each = toset(local.log_analytics_tables)
 
-  name                    = each.value
-  workspace_id            = azurerm_log_analytics_workspace.this.id
-  plan                    = "Basic"
-  total_retention_in_days = 30
-}
+#   name                    = each.value
+#   workspace_id            = azurerm_log_analytics_workspace.this.id
+#   plan                    = "Basic"
+#   total_retention_in_days = 30
+# }
 
 # resource "azurerm_monitor_diagnostic_setting" "aks" {
 #   name                           = "amds-${var.name}-aks"

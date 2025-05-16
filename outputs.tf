@@ -111,6 +111,16 @@ output "node_resource_group" {
   value       = azurerm_kubernetes_cluster.this.node_resource_group
 }
 
+output "aks_resource_group_name" {
+  description = "The name of the Resource Group containing resources for the Managed Kubernetes Cluster"
+  value       = azurerm_kubernetes_cluster.this.aks_resource_group_name
+}
+
+output "aks_name" {
+  description = "The name of the Kubernetes Managed Cluster"
+  value       = azurerm_kubernetes_cluster.this.name
+}
+
 output "node_resource_group_id" {
   description = "The ID of the Resource Group containing resources for the Managed Kubernetes Cluster"
   value       = azurerm_kubernetes_cluster.this.node_resource_group_id
