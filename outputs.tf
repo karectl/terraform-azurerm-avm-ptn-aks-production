@@ -113,7 +113,7 @@ output "node_resource_group" {
 
 output "aks_resource_group_name" {
   description = "The name of the Resource Group containing resources for the Managed Kubernetes Cluster"
-  value       = azurerm_kubernetes_cluster.this.aks_resource_group_name
+  value       = azurerm_kubernetes_cluster.this.resource_group_name
 }
 
 output "aks_name" {
