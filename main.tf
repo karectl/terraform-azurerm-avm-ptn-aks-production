@@ -54,6 +54,9 @@ resource "azurerm_role_assignment" "dns_zone_contributor" {
 }
 
 resource "azurerm_kubernetes_cluster" "this" {
+
+  depends_on = [azurerm_role_assignment.dns_zone_contributor]
+
   location                          = var.location
   name                              = "aks-${var.name}"
   resource_group_name               = var.resource_group_name
