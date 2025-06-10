@@ -74,6 +74,12 @@ resource "azurerm_kubernetes_cluster" "this" {
   tags                              = var.tags
   workload_identity_enabled         = true
 
+  storage_profile {
+    blob_driver_enabled = true
+    disk_driver_enabled = true
+    file_driver_enabled = true
+  }
+
   default_node_pool {
     name                    = "agentpool"
     vm_size                 = var.default_node_pool_vm_sku
