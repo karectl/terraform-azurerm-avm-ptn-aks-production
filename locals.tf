@@ -37,17 +37,6 @@ locals {
       zones = try(local.my_node_pool_zones_by_pool[pool_name][0], ["1"])
     })
   }
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
