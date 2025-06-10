@@ -31,12 +31,23 @@ locals {
       try(local.filtered_vms_by_node_pool[pool_name][0].restrictions[0].restrictionInfo.zones, [])
     )
   }
+
   zonetagged_node_pools = {
     for pool_name, pool in var.node_pools : pool_name => merge(pool, {
-      # zones = local.my_node_pool_zones_by_pool[pool_name]
-      zones = length(local.my_node_pool_zones_by_pool[pool_name]) > 0 ? [local.my_node_pool_zones_by_pool[pool_name][0]] : []
+      zones = try(local.my_node_pool_zones_by_pool[pool_name][0], ["1"])
     })
   }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
