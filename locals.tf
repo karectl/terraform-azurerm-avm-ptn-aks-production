@@ -32,7 +32,10 @@ locals {
     )
   }
   zonetagged_node_pools = {
-    for pool_name, pool in var.node_pools : pool_name => merge(pool, { zones = local.my_node_pool_zones_by_pool[pool_name] })
+    for pool_name, pool in var.node_pools : pool_name => merge(pool, {
+      # zones = local.my_node_pool_zones_by_pool[pool_name]
+      zones = [try(local.my_node_pool_zones_by_pool[pool_name][0], null)] # Just run one zone for now
+    })
   }
 }
 
