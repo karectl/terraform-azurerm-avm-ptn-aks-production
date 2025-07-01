@@ -125,15 +125,15 @@ resource "azurerm_kubernetes_cluster" "this" {
     labels_allowed      = try(var.monitor_metrics.labels_allowed, null)
   }
   network_profile {
-    network_plugin      = "azure"
-    dns_service_ip      = local.dns_service_ip
-    load_balancer_sku   = "standard"
-    network_data_plane  = var.network_policy == "cilium" ? "cilium" : null
-    network_plugin_mode = "overlay"
-    network_policy      = var.network_policy
-    outbound_type       = var.outbound_type
-    pod_cidr            = var.network.pod_cidr
-    service_cidr        = var.network.service_cidr
+    network_plugin = "none"
+    # dns_service_ip      = local.dns_service_ip
+    # load_balancer_sku   = "standard"
+    # network_data_plane  = var.network_policy == "cilium" ? "cilium" : null
+    # network_plugin_mode = "overlay"
+    # network_policy      = var.network_policy
+    # outbound_type       = var.outbound_type
+    # pod_cidr            = var.network.pod_cidr
+    # service_cidr        = var.network.service_cidr
   }
   # oms_agent {
   #   log_analytics_workspace_id      = azurerm_log_analytics_workspace.this.id
