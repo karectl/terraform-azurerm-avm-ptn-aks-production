@@ -81,23 +81,25 @@ resource "azurerm_kubernetes_cluster" "this" {
   }
 
   default_node_pool {
-    name                    = "agentpool"
-    vm_size                 = var.default_node_pool_vm_sku
-    auto_scaling_enabled    = true
-    host_encryption_enabled = false
-    max_count               = 9
-    max_pods                = 110
-    min_count               = 1
-    node_labels             = var.node_labels
-    orchestrator_version    = var.orchestrator_version
-    os_disk_type            = var.os_disk_type
-    os_sku                  = var.os_sku
-    tags                    = merge(var.tags, var.agents_tags)
-    vnet_subnet_id          = var.network.node_subnet_id
-    zones                   = local.default_node_pool_available_zones
+    name                        = "agentpool"
+    vm_size                     = var.default_node_pool_vm_sku
+    auto_scaling_enabled        = true
+    host_encryption_enabled     = false
+    max_count                   = 9
+    max_pods                    = 110
+    min_count                   = 1
+    node_labels                 = var.node_labels
+    orchestrator_version        = var.orchestrator_version
+    os_disk_type                = var.os_disk_type
+    os_sku                      = var.os_sku
+    tags                        = merge(var.tags, var.agents_tags)
+    vnet_subnet_id              = var.network.node_subnet_id
+    zones                       = local.default_node_pool_available_zones
+    temporary_name_for_rotation = "agentpooltmp"
 
     upgrade_settings {
-      max_surge = "10%"
+      max_surge                = "10%"
+      drain_timeout_in_minutes = 10
     }
   }
   auto_scaler_profile {
@@ -279,20 +281,21 @@ resource "azurerm_kubernetes_cluster_node_pool" "this" {
     for pool in local.node_pools : pool.name => pool
   })
 
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.this.id
-  name                  = each.value.name
-  vm_size               = each.value.vm_size
-  auto_scaling_enabled  = true
-  max_count             = each.value.max_count
-  min_count             = each.value.min_count
-  node_labels           = each.value.labels
-  orchestrator_version  = each.value.orchestrator_version
-  os_disk_size_gb       = each.value.os_disk_size_gb
-  os_disk_type          = each.value.os_disk_type
-  os_sku                = each.value.os_sku
-  tags                  = each.value.tags
-  vnet_subnet_id        = var.network.node_subnet_id
-  zones                 = each.value.zone
+  kubernetes_cluster_id       = azurerm_kubernetes_cluster.this.id
+  name                        = each.value.name
+  vm_size                     = each.value.vm_size
+  auto_scaling_enabled        = true
+  max_count                   = each.value.max_count
+  min_count                   = each.value.min_count
+  node_labels                 = each.value.labels
+  orchestrator_version        = each.value.orchestrator_version
+  os_disk_size_gb             = each.value.os_disk_size_gb
+  os_disk_type                = each.value.os_disk_type
+  os_sku                      = each.value.os_sku
+  tags                        = each.value.tags
+  vnet_subnet_id              = var.network.node_subnet_id
+  zones                       = each.value.zone
+  temporary_name_for_rotation = "${each.value.name}tmp"
 
   depends_on = [azapi_update_resource.aks_cluster_post_create]
 

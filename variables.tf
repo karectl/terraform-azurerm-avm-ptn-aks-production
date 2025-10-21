@@ -50,7 +50,7 @@ variable "agents_tags" {
 
 variable "default_node_pool_vm_sku" {
   type        = string
-  default     = "Standard_D4d_v5"
+  default     = "Standard_E8as_v6"
   description = "The VM SKU to use for the default node pool. A minimum of three nodes of 8 vCPUs or two nodes of at least 16 vCPUs is recommended. Do not use SKUs with less than 4 CPUs and 4Gb of memory."
 }
 
